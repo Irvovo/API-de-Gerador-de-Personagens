@@ -5,6 +5,18 @@ API REST (FastAPI + SQLAlchemy 2.0 + Pydantic v2) para gerenciar `Arma`, `Classe
 (`ADMIN` e `MEMBER`). O contrato de referência é o `api_gerador_personagens.json` (export do Apidog);
 as decisões de projeto estão no `SPEC.md` e no `PLAN.md`.
 
+## Equipe
+
+| Integrante | Responsabilidade |
+| ---------- | ---------------- |
+| Irving Lucas Marinho | Desenvolvimento da API (rotas, ORM), servidor MCP, Docker e documentação |
+| Thiago Andrade | Testes da API, desenvolvimento da Autenticação e planejamento da segurança |
+| Sofia Nascimento | Revisão do contrato da API no Apidog, testes manuais pelo Swagger (/docs), revisão da documentação (DOCUMENTACAO-API.md e README), apoio na montagem dos slides e na apresentação |
+
+
+Método: Spec-Driven Development. O trabalho segue o `SPEC.md`, o `PLAN.md`, o `STYLEGUIDE.md` e as
+personas definidas no `AGENTS.md`, com desenvolvimento assistido por IA e revisão a cada fase.
+
 ## Como rodar
 
 Requer Python 3.12+.
