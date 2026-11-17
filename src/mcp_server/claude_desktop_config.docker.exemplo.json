@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "gerador-de-personagens": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "--add-host=host.docker.internal:host-gateway",
+        "-e", "GERADOR_API_URL=http://host.docker.internal:8000",
+        "-e", "GERADOR_API_EMAIL=admin@example.com",
+        "-e", "GERADOR_API_SENHA=Admin@123",
+        "gerador-personagens-mcp"
+      ]
+    }
+  }
+}

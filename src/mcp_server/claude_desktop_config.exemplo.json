@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "gerador-de-personagens": {
+      "command": "D:\\aplicacoes\\api criador de personagem\\.venv\\Scripts\\python.exe",
+      "args": [
+        "D:\\aplicacoes\\api criador de personagem\\src\\mcp_server\\server.py"
+      ],
+      "env": {
+        "GERADOR_API_URL": "http://127.0.0.1:8000",
+        "GERADOR_API_EMAIL": "admin@example.com",
+        "GERADOR_API_SENHA": "Admin@123"
+      }
+    }
+  }
+}

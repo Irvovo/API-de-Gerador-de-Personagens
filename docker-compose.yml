@@ -1,0 +1,21 @@
+name: gerador-personagens
+
+services:
+  api:
+    build: .
+    image: gerador-personagens-api:latest
+    # Variáveis lidas do arquivo .env (copie de .env.example).
+    env_file: .env
+    environment:
+      # Fixo: o arquivo SQLite fica no volume "dados", montado em /data.
+      DATABASE_URL: sqlite:////data/gerador_personagens.db
+    ports:
+      # API_PORT vem do .env (padrão 8000). A porta de dentro do container é sempre 8000.
+      - "${API_PORT:-8000}:8000"
+    volumes:
+      - dados:/data
+    restart: unless-stopped
+    # O healthcheck já está definido no Dockerfile (consulta /openapi.json).
+
+volumes:
+  dados:

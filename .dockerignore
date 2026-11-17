@@ -1,0 +1,40 @@
+# Controle de versão e segredos
+.git
+.gitignore
+.env
+.env.*
+
+# Ambientes e dependências locais
+.venv
+venv
+env
+node_modules
+bin
+obj
+
+# Python / testes / caches
+__pycache__
+**/__pycache__
+*.py[cod]
+.pytest_cache
+pytest.ini
+
+# Dados e logs locais
+*.db
+*.sqlite3
+*.log
+logs
+
+# Editores
+.idea
+.vscode
+
+# Não precisam estar na imagem: servidor MCP (roda na máquina de quem usa o Claude), testes e documentação
+src/mcp_server
+src/api/tests
+*.md
+
+# Arquivos do próprio Docker
+Dockerfile
+docker-compose.yml
+.dockerignore

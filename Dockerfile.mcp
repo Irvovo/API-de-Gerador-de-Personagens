@@ -1,0 +1,39 @@
+# syntax=docker/dockerfile:1
+# Servidor MCP do Gerador de Personagens (o Claude Desktop inicia este container sozinho, via "docker run -i").
+# Build: docker build -f Dockerfile.mcp -t gerador-personagens-mcp .
+
+# ---------- Estágio 1: dependências ----------
+FROM python:3.12-slim AS builder
+
+ENV PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+WORKDIR /build
+COPY src/mcp_server/requirements.txt ./requirements.txt
+RUN pip install -r requirements.txt
+
+
+# ---------- Estágio 2: imagem final, sem root ----------
+FROM python:3.12-slim AS runtime
+
+# Usuário e senha da API NÃO ficam na imagem: vêm do "docker run -e ..." no config do Claude.
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PATH="/opt/venv/bin:$PATH" \
+    GERADOR_API_URL="http://host.docker.internal:8000"
+
+RUN groupadd --system --gid 10001 app \
+    && useradd --uid 10001 --gid app --no-create-home --home-dir /app --shell /usr/sbin/nologin app
+
+WORKDIR /app
+
+COPY --from=builder /opt/venv /opt/venv
+COPY --chown=app:app src/mcp_server/server.py ./server.py
+
+USER app
+
+# Transporte stdio: o Claude conversa com o processo pela entrada/saída padrão (sem porta).
+CMD ["python", "server.py"]

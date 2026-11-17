@@ -1,0 +1,4 @@
+# Usado só pelo "Dockerfile.mcp": manda para o build apenas os 2 arquivos de que ele precisa.
+*
+!src/mcp_server/requirements.txt
+!src/mcp_server/server.py
