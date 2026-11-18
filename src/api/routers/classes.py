@@ -99,7 +99,7 @@ def listar_classes(
     "/{id}",
     response_model=Classe,
     summary="Buscar classe por ID",
-    responses=respostas(400, 401, 404, 422),
+    responses=respostas(400, 401, 404, 422, recurso="classe"),
 )
 def buscar_classe(recurso_id: IdPath, db: Session = Depends(get_db)):
     return _obter_ou_404(db, recurso_id)
@@ -110,7 +110,7 @@ def buscar_classe(recurso_id: IdPath, db: Session = Depends(get_db)):
     response_model=Classe,
     summary="Atualizar classe",
     description="Substitui todos os dados editáveis. Todos os campos devem ser enviados.",
-    responses=respostas(400, 401, 404, 422),
+    responses=respostas(400, 401, 404, 422, recurso="classe"),
 )
 def atualizar_classe(recurso_id: IdPath, dto: UpdateClasseDTO, db: Session = Depends(get_db)):
     recurso = _obter_ou_404(db, recurso_id)
@@ -132,7 +132,7 @@ def atualizar_classe(recurso_id: IdPath, dto: UpdateClasseDTO, db: Session = Dep
     summary="Excluir classe",
     description="Remove a classe. Retorna 409 se estiver vinculada a algum personagem.",
     dependencies=[Depends(require_role("ADMIN"))],
-    responses=respostas(400, 401, 403, 404, 409, 422),
+    responses=respostas(400, 401, 403, 404, 409, 422, recurso="classe"),
 )
 def excluir_classe(recurso_id: IdPath, db: Session = Depends(get_db)):
     recurso = _obter_ou_404(db, recurso_id)

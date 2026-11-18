@@ -25,9 +25,35 @@ _DESCRICOES = {
 }
 
 
-def respostas(*status: int) -> dict[int | str, dict[str, Any]]:
+_EXEMPLOS_ERRO = {
+    400: ("REQUISICAO_INVALIDA", "O cabeçalho Content-Type deve ser application/json."),
+    401: ("NAO_AUTENTICADO", "Autenticação ausente ou inválida."),
+    403: ("ACESSO_NEGADO", "Você não tem permissão para executar esta operação."),
+    422: ("DADOS_INVALIDOS", "Dados inválidos — nome: String should have at least 4 characters."),
+}
+
+
+def respostas(*status: int, recurso: str | None = None) -> dict[int | str, dict[str, Any]]:
     """Documenta (OpenAPI) os erros ``ApiError`` de uma rota."""
-    return {s: {"model": ApiError, "description": _DESCRICOES[s]} for s in status}
+    exemplos = dict(_EXEMPLOS_ERRO)
+    if recurso is not None:
+        exemplos[404] = _NAO_ENCONTRADO[recurso]
+        exemplos[409] = (
+            "RECURSO_EM_USO",
+            f"Não é possível excluir a {recurso}: ela está vinculada a um ou mais personagens.",
+        )
+    docs: dict[int | str, dict[str, Any]] = {}
+    for s in status:
+        doc: dict[str, Any] = {"model": ApiError, "description": _DESCRICOES[s]}
+        if s in exemplos:
+            codigo, mensagem = exemplos[s]
+            doc["content"] = {
+                "application/json": {
+                    "example": {"status": s, "codigo": codigo, "mensagem": mensagem}
+                }
+            }
+        docs[s] = doc
+    return docs
 
 
 def resposta_erro(

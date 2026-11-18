@@ -99,7 +99,7 @@ def listar_fraquezas(
     "/{id}",
     response_model=Fraqueza,
     summary="Buscar fraqueza por ID",
-    responses=respostas(400, 401, 404, 422),
+    responses=respostas(400, 401, 404, 422, recurso="fraqueza"),
 )
 def buscar_fraqueza(recurso_id: IdPath, db: Session = Depends(get_db)):
     return _obter_ou_404(db, recurso_id)
@@ -110,7 +110,7 @@ def buscar_fraqueza(recurso_id: IdPath, db: Session = Depends(get_db)):
     response_model=Fraqueza,
     summary="Atualizar fraqueza",
     description="Substitui todos os dados editáveis. Todos os campos devem ser enviados.",
-    responses=respostas(400, 401, 404, 422),
+    responses=respostas(400, 401, 404, 422, recurso="fraqueza"),
 )
 def atualizar_fraqueza(recurso_id: IdPath, dto: UpdateFraquezaDTO, db: Session = Depends(get_db)):
     recurso = _obter_ou_404(db, recurso_id)
@@ -132,7 +132,7 @@ def atualizar_fraqueza(recurso_id: IdPath, dto: UpdateFraquezaDTO, db: Session =
     summary="Excluir fraqueza",
     description="Remove a fraqueza. Retorna 409 se estiver vinculada a algum personagem.",
     dependencies=[Depends(require_role("ADMIN"))],
-    responses=respostas(400, 401, 403, 404, 409, 422),
+    responses=respostas(400, 401, 403, 404, 409, 422, recurso="fraqueza"),
 )
 def excluir_fraqueza(recurso_id: IdPath, db: Session = Depends(get_db)):
     recurso = _obter_ou_404(db, recurso_id)

@@ -102,7 +102,7 @@ def listar_habilidades(
     "/{id}",
     response_model=Habilidade,
     summary="Buscar habilidade por ID",
-    responses=respostas(400, 401, 404, 422),
+    responses=respostas(400, 401, 404, 422, recurso="habilidade"),
 )
 def buscar_habilidade(recurso_id: IdPath, db: Session = Depends(get_db)):
     return _obter_ou_404(db, recurso_id)
@@ -113,7 +113,7 @@ def buscar_habilidade(recurso_id: IdPath, db: Session = Depends(get_db)):
     response_model=Habilidade,
     summary="Atualizar habilidade",
     description="Substitui todos os dados editáveis. Todos os campos devem ser enviados.",
-    responses=respostas(400, 401, 404, 422),
+    responses=respostas(400, 401, 404, 422, recurso="habilidade"),
 )
 def atualizar_habilidade(recurso_id: IdPath, dto: UpdateHabilidadeDTO, db: Session = Depends(get_db)):
     recurso = _obter_ou_404(db, recurso_id)
@@ -137,7 +137,7 @@ def atualizar_habilidade(recurso_id: IdPath, dto: UpdateHabilidadeDTO, db: Sessi
     summary="Excluir habilidade",
     description="Remove a habilidade. Retorna 409 se estiver vinculada a algum personagem.",
     dependencies=[Depends(require_role("ADMIN"))],
-    responses=respostas(400, 401, 403, 404, 409, 422),
+    responses=respostas(400, 401, 403, 404, 409, 422, recurso="habilidade"),
 )
 def excluir_habilidade(recurso_id: IdPath, db: Session = Depends(get_db)):
     recurso = _obter_ou_404(db, recurso_id)

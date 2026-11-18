@@ -237,7 +237,7 @@ def listar_personagens(
     "/{id}",
     response_model=Personagem,
     summary="Buscar personagem por ID",
-    responses=respostas(400, 401, 404, 422),
+    responses=respostas(400, 401, 404, 422, recurso="personagem"),
 )
 def buscar_personagem(personagem_id: IdPath, db: Session = Depends(get_db)):
     return _obter_ou_404(db, personagem_id)
@@ -248,7 +248,7 @@ def buscar_personagem(personagem_id: IdPath, db: Session = Depends(get_db)):
     response_model=Personagem,
     summary="Atualizar personagem",
     description="Substitui todos os dados editáveis, inclusive o conjunto de habilidades.",
-    responses=respostas(400, 401, 404, 422),
+    responses=respostas(400, 401, 404, 422, recurso="personagem"),
 )
 def atualizar_personagem(
     personagem_id: IdPath, dto: UpdatePersonagemDTO, db: Session = Depends(get_db)
@@ -275,7 +275,7 @@ def atualizar_personagem(
     response_class=Response,
     summary="Excluir personagem",
     dependencies=[Depends(require_role("ADMIN"))],
-    responses=respostas(400, 401, 403, 404, 422),
+    responses=respostas(400, 401, 403, 404, 422, recurso="personagem"),
 )
 def excluir_personagem(personagem_id: IdPath, db: Session = Depends(get_db)):
     personagem = _obter_ou_404(db, personagem_id)
